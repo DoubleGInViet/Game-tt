@@ -22,11 +22,11 @@ import utilz.LoadSave;
 
 public class Player extends Entity {
 	private BufferedImage[][] animations;
-	private int aniTick, aniIndex, aniSpeed = 15;
+	private int aniTick, aniIndex, aniSpeed =25;
 	private int playerAction = IDLE;
 	private boolean up, right, down, left, jump;
 	private boolean moving = false;
-	private float playerSpeed = 2f;
+	private float playerSpeed = 1.5f;
 	private boolean attacking = false;
 	private int[][] lvlData;
 	private float xDrawOffset = 15 * Game.SCALE;
@@ -35,8 +35,8 @@ public class Player extends Entity {
 	// Jumping / Gravity
 	private float airSpeed = 0f;
 	private float gravity = 0.05f * Game.SCALE;
-	private float jumpSpeed = -3f * Game.SCALE;
-	private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
+	private float jumpSpeed = -3.2f * Game.SCALE;
+	private float fallSpeedAfterCollision = 0.3f * Game.SCALE;
 	private boolean inAir = false;
 
 	// x = 11, y = 6, width = 24, height = 28
@@ -47,17 +47,18 @@ public class Player extends Entity {
 		
 	}
 
+	
 	public void update() {
 		updatePos();
 		updateAnimation();
 		setAnimation();
 	}
 
-	public void render(Graphics g) {
-		update();
-		g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset),
+	public void render(Graphics g, int lvlOffset) {
+	
+		g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset),
 				(int) width, (int) height, null);
-		drawHitbox(g);
+//		drawHitbox(g);
 	}
 
 	public void setAttacking(boolean attacking) {
@@ -95,9 +96,20 @@ public class Player extends Entity {
 				playerAction = FALLING;
 		}
 		
-		if (attacking) {
-			playerAction = ATTACK;
+
+		
+		if( inAir) {
+			if( attacking ) {
+				playerAction = ATTACK_JUMP;	
+				
+			}
 		}
+		else {
+			if (attacking) {
+				playerAction = ATTACK;
+			}
+		}
+		
 
 		if (startAni != playerAction) {
 			resetAnimation();
@@ -116,8 +128,11 @@ public class Player extends Entity {
 			jump();
 		}
 
-		if (!left && !right && !inAir) {
-			return;
+		
+		if( !inAir) {
+			if( (!left && !right) || (left && right)) {
+				return;
+			}
 		}
 		
 		float xSpeed = 0;

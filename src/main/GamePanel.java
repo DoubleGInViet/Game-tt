@@ -25,8 +25,7 @@ public class GamePanel extends JPanel {
 
 	
 	private MouseInput mouseInput;
-	private int frames = 0;
-	private long lastCheck = 0;
+
 	private Game game;
 
 	public GamePanel(Game game) {
@@ -40,10 +39,8 @@ public class GamePanel extends JPanel {
 
 	}
 
-	
-
 	private void setPanelSize() {
-		Dimension size = new Dimension(Game.GAME_WIDTH, Game.GAME_HEIGHT);
+		Dimension size = new Dimension(Game.GAME_WIDTH , Game.GAME_HEIGHT);
 		setPreferredSize(size);
 	}
 

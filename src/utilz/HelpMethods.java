@@ -5,8 +5,9 @@ import java.awt.geom.Rectangle2D;
 import main.Game;
 
 public class HelpMethods {
+	
+	// check co the di chuyen hay khong
 	public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
-
 		if (!IsSolid(x, y, lvlData)) {
 			if (!IsSolid(x + width, y + height, lvlData)) {
 				if (!IsSolid(x + width, y, lvlData)) {
@@ -19,8 +20,10 @@ public class HelpMethods {
 		return false;
 	}
 
+	// check co phai chuong ngai vat hay khong
 	public static boolean IsSolid(float x, float y, int[][] lvlData) {
-		if (x < 0 || x >= Game.GAME_WIDTH)
+		int maxWidth = lvlData[0].length * Game.TILE_SIZE;
+		if (x < 0 || x >= maxWidth)
 			return true;
 		if (y < 0 || y >= Game.GAME_HEIGHT) {
 			return true;
@@ -37,6 +40,7 @@ public class HelpMethods {
 		return false;
 	}
 	
+	// 
 	public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
 		int currentTile = (int)( hitbox.x / Game.TILE_SIZE);
 		if( xSpeed > 0) {
@@ -49,6 +53,7 @@ public class HelpMethods {
 		}
 	}
 	
+	
 	public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed) {
 		int currentTile = (int) (hitbox.y / Game.TILE_SIZE);
 		if( airSpeed > 0) {
@@ -59,6 +64,7 @@ public class HelpMethods {
 		else
 			return (currentTile) * Game.TILE_SIZE;
 	}
+	
 	
 	public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
 		if(!IsSolid(hitbox.x, hitbox.y + hitbox.height+1, lvlData))

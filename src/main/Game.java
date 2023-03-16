@@ -11,7 +11,7 @@ public class Game implements Runnable {
 	private GamePanel gamePanel;
 	private Thread gameThread;
 	private final int FPS_SET = 120;
-	private final int UPS_SET = 200;
+	private final int UPS_SET = 170;
 	
 	private Playing playing;
 	private Menu menu;
@@ -20,7 +20,7 @@ public class Game implements Runnable {
 	public static final float SCALE = 1.5f;
 	public static final int TILES_IN_WIDTH = 26;
 	public static final int TILES_IN_HEIGHT = 14;
-	public static final int TILE_SIZE = (int) (TILES_DEFAULT_SIZE*SCALE);
+	public static final int TILE_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
 	public static final int GAME_WIDTH = TILE_SIZE * TILES_IN_WIDTH;
 	public static final int GAME_HEIGHT = TILE_SIZE * TILES_IN_HEIGHT;
 	
@@ -29,7 +29,7 @@ public class Game implements Runnable {
 		initClasses();
 		gamePanel = new GamePanel(this);
 		gameWindow = new GameWindow(gamePanel);
-		gamePanel.setFocusable(true);
+//		gamePanel.setFocusable(true);
 		gamePanel.requestFocus();
 		startGameLoop();
 		
@@ -46,7 +46,7 @@ public class Game implements Runnable {
 	}
 
 	public void update() {
-		switch( Gamestate.state) {
+		switch( Gamestate.state ) {
 		case MENU:
 			menu.update();
 			break;
@@ -93,36 +93,51 @@ public class Game implements Runnable {
 	
 	@Override
 	public void run() {
+		// Mỗi frame kéo dài bao lâu
 		double timePerFrame = 1000000000.0 / FPS_SET;
+		// Khoảng thời gian giữa mỗi lần update
 		double timePerUpdate = 1000000000.0 / UPS_SET;
 
 		long previousTime = System.nanoTime();
 
 		double deltaU = 0;
 		double deltaF = 0;
-
+		
+		long lastCheck = System.currentTimeMillis();
+		
 		int frames = 0;
 		int updates = 0;
 
 		while (true) {
 
 			long currentTime = System.nanoTime();
-
-			deltaU += (currentTime - previousTime) / timePerUpdate;
+			// số lần cập nhật trong khoảng thời gian current - pre, nếu deltaU >=1 tính là 1 lần update
+			// current - pre thường là 1000 nên deltaU thường nhỏ hơn 1
+			// cộng dồn vào đến khi lớn hơn bằng 1 mới tính là 1 lần update
+			deltaU += (currentTime - previousTime) / timePerUpdate;			
 			if (deltaU >= 1) {
+				
+				update();
 				deltaU--;
 				updates++;
 			}
 
-			deltaF += (currentTime - previousTime) / timePerFrame;
+			deltaF += (currentTime - previousTime) / timePerFrame;		
 			if (deltaF >= 1) {
 				gamePanel.repaint();
 				frames++;
 				deltaF--;
 			}
+			
+			if (System.currentTimeMillis() - lastCheck >= 1000) {
+				lastCheck = System.currentTimeMillis();
+//				System.out.println("FPS: " + frames + " | UPS: " + updates);
+				frames = 0;
+				updates = 0;
+
+			}
 			previousTime = currentTime;
 
-//			}
 
 		}
 		
