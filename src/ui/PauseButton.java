@@ -17,7 +17,6 @@ public class PauseButton {
 
 	private void createBounds() {
 		bounds = new Rectangle(x, y, width, height);
-		
 	}
 
 	public int getX() {

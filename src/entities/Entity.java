@@ -2,14 +2,23 @@ package entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
+
+import main.Game;
 
 public abstract class Entity {
 	
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle2D.Float hitbox;
+	protected int aniTick, aniIndex;
+	protected int state;
+	protected float airSpeed;
+	protected boolean inAir = false;
+	protected int maxHealth ;
+	protected int currentHealth;
+	protected Rectangle2D.Float attackBox;
+	protected float walkSpeed = 1.0f * Game.SCALE;
 	
 	
 	public Entity( float x, float y, int width, int height) {
@@ -19,13 +28,18 @@ public abstract class Entity {
 		this.height = height;
 	}
 
-	protected void drawHitbox(Graphics g) {
-		g.setColor(Color.PINK);
-		g.drawRect((int)hitbox.x, (int)hitbox.y, (int)hitbox.width, (int)hitbox.height);
+	public void drawAttackBox(Graphics g, int xLvlOffset) {
+		g.setColor(Color.GREEN);
+		g.drawRect((int)attackBox.x - xLvlOffset,(int) attackBox.y,(int) attackBox.width,(int) attackBox.height);
 	}
 	
-	protected void initHitbox(float x, float y, float width, float heigth) {
-		hitbox = new Rectangle2D.Float(x, y, width, heigth);		
+	protected void drawHitbox(Graphics g, int xLvlOffset) {
+		g.setColor(Color.PINK);
+		g.drawRect((int)hitbox.x - xLvlOffset, (int)hitbox.y, (int)hitbox.width, (int)hitbox.height);
+	}
+	
+	protected void initHitbox(float width, float heigth) {
+		hitbox = new Rectangle2D.Float(x, y, (int)( width * Game.SCALE), (int)( heigth * Game.SCALE));		
 	}
 	
 	protected void updateHitbox() {
@@ -35,6 +49,14 @@ public abstract class Entity {
 	
 	public Rectangle2D.Float getHitbox() {
 		return hitbox;
+	}
+	
+	public int getAniIndex() {
+		return aniIndex;
+	}
+	
+	public int getCurrentHealth() {
+		return currentHealth;
 	}
 	
 }

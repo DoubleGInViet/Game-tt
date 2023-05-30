@@ -1,25 +1,16 @@
 package main;
 
-import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Random;
 
-import javax.imageio.ImageIO;
+
+
 import javax.swing.JPanel;
 
 import inputs.KeyboardInput;
-import static inputs.KeyboardInput.*;
+
 import inputs.MouseInput;
-import static utilz.Constants.PlayerConstants.*;
-import static utilz.Constants.Directions.*;
 
 public class GamePanel extends JPanel {
 

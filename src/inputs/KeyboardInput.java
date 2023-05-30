@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 import gamestates.Gamestate;
 import main.GamePanel;
-import static utilz.Constants.Directions.*;
+
 
 public class KeyboardInput implements KeyListener {
 
@@ -18,7 +18,6 @@ public class KeyboardInput implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

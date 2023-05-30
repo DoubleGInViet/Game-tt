@@ -29,8 +29,7 @@ public class MenuButton {
 
 
 	private void initBounds() {
-		bounds = new Rectangle(xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT);
-		
+		bounds = new Rectangle(xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT);			
 	}
 
 
@@ -97,5 +96,9 @@ public class MenuButton {
 		mouseOver = false;
 		mousePressed = false;
 		
+	}
+	
+	public Gamestate getState() {
+		return state;
 	}
 }
